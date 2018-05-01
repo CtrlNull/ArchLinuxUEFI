@@ -1,5 +1,6 @@
  <img src="https://news-cdn.softpedia.com/images/news2/How-to-Install-Third-Party-Apps-in-Arch-Linux-2.png" width="125" height="100"> 
 
+ # UNDERCONSTRUCTION ****** 5/1/18
  # Arch Linux :penguin: Legacy Install
 
 Note** this is for non-dual boot, GNOME Setup
@@ -113,15 +114,20 @@ passwd
 ~~~
 
 # Add real user remove -s flag if you don't whish to use zsh
+~~~
 # useradd -m -g users -G wheel -s /bin/zsh MYUSERNAME
 # passwd MYUSERNAME
+~~~
 
 # Configure mkinitcpio with modules needed for the initrd image
+~~~
 vim /etc/mkinitcpio.conf
+~~~
 # Add 'ext4' to MODULES
 # Add 'encrypt' and 'lvm2' to HOOKS before filesystems
 
 # Regenerate initrd image
+~~~
 mkinitcpio -p linux
 
 # Setup grub
