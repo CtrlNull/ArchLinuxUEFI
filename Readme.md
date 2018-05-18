@@ -21,9 +21,9 @@ $ cgdisk [/dev/sda]
 ~~
 Use GParted
 * Partition table is GPT
-* the EFI partition is FAT32, around 250MB
-* the swap partition is swap, [*GB]
-* the root partition is ext4, to last
+* the boot, EF00 HexCode: EF00 partition is FAT32, around 250MB
+* the swap, HexCode:8200 partition is swap, [*GB]
+* the root, HexCode: partition is ext4, to last
 
 * Write > yes
 
