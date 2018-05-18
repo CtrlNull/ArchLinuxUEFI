@@ -13,18 +13,26 @@ $ dd if=archlinux.img of=/dev/[sdX] bs=16M && sync # on linux
 
 ### Boot from the usb. If the usb fails to boot, make sure that secure boot is disabled in the BIOS configuration.
 
+## Check your internet connection
+
+## Check if EFI variables
+~~~
+$ efivar -l
+~~~
+
 ## Format disk and mount partitions
-~~
+~~~
 $ lsblk // list devices
-$ gdisk [/dev/sda] > x > z > y > y
+
+$ gdisk [/dev/sda] // > x > z > y > y
+
 $ cgdisk [/dev/sda]
-~~
+~~~
 Use GParted
 * Partition table is GPT
 * the boot, EF00 HexCode: EF00 partition is FAT32, around 250MB
 * the swap, HexCode:8200 partition is swap, [*GB]
 * the root, HexCode: partition is ext4, to last
-
 * Write > yes
 
 ### Apply file system
@@ -61,13 +69,24 @@ $ cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
 * Datetime/region is for my personal location
 
 ~~~
-$ pacstrap /mnt base
-$ genfstab -U /mnt >> /mnt/etc/fstab
+$ pacstrap /mnt base base-devel
+$ genfstab -U -p /mnt >> /mnt/etc/fstab
+$ nano /mnt/etc/fstab // check file and write out
+
 $ arch-chroot /mnt/
-$ LANG=C perl -i -pe 's/#(en_US.UTF)/$1/' /etc/locale.gen
+
+$ nano /etc/local.gen
+# remove # @ en_US.UTF-8
 $ locale-gen
-$ localectl set-locale LANG="en_US.UTF-8"
+$ echo LANG=en_US.UTF-8 > /etc/locale.conf
+$ export LANG=en_US.UTF-8
+
+$ ls /usr/share/zoneinfo/
+$ ln -s /usr/share/zoneinfo/America/New_York > /etc/localtime
+$ hwclock --systohc --utc
+
 $ echo [myhostname] > /etc/hostname
+
 $ pacman -S dialog wpa_supplicant refind-efi
 $ cp /usr/share/refind/refind_x64.efi /esp/EFI/Boot/bootx64.efi
 $ cp -r /usr/share/refind/drivers_x64/ /esp/EFI/Boot/
