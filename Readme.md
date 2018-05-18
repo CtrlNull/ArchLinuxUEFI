@@ -87,15 +87,34 @@ $ hwclock --systohc --utc
 
 $ echo [myhostname] > /etc/hostname
 
-$ pacman -S dialog wpa_supplicant refind-efi
-$ cp /usr/share/refind/refind_x64.efi /esp/EFI/Boot/bootx64.efi
-$ cp -r /usr/share/refind/drivers_x64/ /esp/EFI/Boot/
-$ echo 'extra_kernel_version_strings linux,linux-hardened,linux-lts,linux-zen,linux-git;' > /esp/EFI/Boot/refind.conf
-$ echo 'fold_linux_kernels false' >> /esp/EFI/Boot/refind.conf
+$ sudo systemctl enable fstrim.timer
+
+# Setup repo access
+
+$ sudo nano /etc/pacman.conf
+### add entry > 
+[archlinuxfr]
+SigLevel = Never
+Server = http://repo.archlinux.fr/$arch
+
+uncomment > multilib
+###
+
+$ sudo pacman -Sy
+
 $ passwd
-$ useradd -m -G wheel -s /bin/bash [archie]
+$ useradd -m -g users -G wheel,storage,power -s /bin/bash [archie]
 $ passwd [archie]
-$ perl -i -pe 's/#(%wheel ALL=(ALL) ALL)/$1/' /etc/sudoers
+
+### Modify sudoers file
+
+$ EDITOR=nano visudo
+uncomment %wheel
+## add >
+Defaults rootpw
+
+###
+
 $ exit
 
 ## Boot Loader and Packages 
