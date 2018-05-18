@@ -2,11 +2,12 @@
 
  # Arch Linux UEFI Install
 
-Note** this is for non-dual boot, GNOME Setup
+* This is for non-dual boot, GNOME Setup
+* Download iso via https://www.archlinux.org/download/ torrent using magnet link or select location and iso file
 
-## WINDOWS Download ISO and mount via rufus or similar
+#### WINDOWS Download ISO and mount via rufus or similar
 or
-## LINUX Download ISO and copy to usb via bash
+#### LINUX Download ISO and copy to usb via bash
 ~~~
 $ dd if=archlinux.img of=/dev/[sdX] bs=16M && sync # on linux
 ~~~
@@ -178,6 +179,8 @@ $ sudo pacman -S xorg xorg-xinit
 $ echo "exec gnome-session" > ~/.xinitrc // create a file of init for guid
 
 $ sudo pacman -S gnome // install gnome desktop enter > enter >
+
+$ sudo systemctl enable gdm
 
 // install random needed programs
 
