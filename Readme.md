@@ -31,6 +31,7 @@ $ gdisk [/dev/sda] // > x > z > y > y
 
 $ cgdisk [/dev/sda]
 ~~~
+
 ## Use GParted
 * Partition table is GPT
 * the boot, EF00 HexCode: EF00 partition is FAT32, around 250MB
@@ -66,7 +67,7 @@ $ mount /dev/sda1 /mnt/boot
 $ cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
 ~~~
 
-## Install Arch
+# Install Arch
 
 * '[example]' is your personal input
 * Datetime/region is for my personal location
@@ -149,7 +150,7 @@ $ sudo pacman -S networkmanager
 $ sudo systemctl enable NetworkManager.service 
 ~~~
 
-### Done with Arch Linux Setup
+# Done with Arch Linux Setup
 
 ~~~
 $ exit
