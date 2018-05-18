@@ -11,9 +11,12 @@ or
 $ dd if=archlinux.img of=/dev/[sdX] bs=16M && sync # on linux
 ~~~
 
-### Boot from the usb. If the usb fails to boot, make sure that secure boot is disabled in the BIOS configuration.
+#### Boot from the usb. If the usb fails to boot, make sure that secure boot is disabled in the BIOS configuration.
 
 ## Check your internet connection
+~~~
+$ ping google.com
+~~~
 
 ## Check if EFI variables
 ~~~
@@ -28,7 +31,7 @@ $ gdisk [/dev/sda] // > x > z > y > y
 
 $ cgdisk [/dev/sda]
 ~~~
-Use GParted
+## Use GParted
 * Partition table is GPT
 * the boot, EF00 HexCode: EF00 partition is FAT32, around 250MB
 * the swap, HexCode:8200 partition is swap, [*GB]
@@ -113,26 +116,47 @@ uncomment %wheel
 ## add >
 Defaults rootpw
 
+## check if efivars are mounted
+$ mount -t efivars /sys/firware/efi/efivars/
+
+$ bootctl install
+
+$ sudo nano /boot/loader/entries/arch.conf
+###
+title Arch Linux
+linux vmlinuz-linux
+initrd /initramfs-linux.img
 ###
 
-$ exit
+$ echo "options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/sda3) rw" >> boot/loader/entries/arch.conf
 
-## Boot Loader and Packages 
+$ sudo pacman -S intel-ucode
+
+$ sudo nano /boot/loader/entries/arch.conf
+###
+initrd /intel-ucode.img
+###
+~~~
+
+### Setup Internet device and install network manager
+~~~
+$ ip link
+
+$ sudo systemctl enable dhcpcd@[enp0s2ofou1u3].service
+
+$ sudo pacman -S networkmanager
+
+$ sudo systemctl enable NetworkManager.service 
+~~~
+
+### Done with Arch Linux Setup
 
 ~~~
-// Boot Loader
-
-$ pacman -S grub // Setup GRUB bootloader
-
-$ grub-install /dev/sda
-
-$ grub-mkconfig -o /boot/grub/grub.cfg // configures grub loader
-
 $ exit
+~~~
 
-$ unmount
-
-$ reboot
+## Graphics and audio(Laptop)
+~~~
 
 // Packages 
 
@@ -142,15 +166,12 @@ $ sudo pacman -S pulseaudio pulseaudio-alsa // install audio
 $ sudo pacman -S xorg xorg-xinit 
 ~~~
 
-
-
-
 ## Install GNOME & Login manager
 
 ~~~
 $ echo "exec gnome-session" > ~/.xinitrc // create a file of init for guid
 
-$ sudo pacman -S gnome // install gnome desktop
+$ sudo pacman -S gnome // install gnome desktop enter > enter >
 
 // install random needed programs
 
