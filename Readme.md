@@ -14,7 +14,11 @@ $ dd if=archlinux.img of=/dev/[sdX] bs=16M && sync # on linux
 ### Boot from the usb. If the usb fails to boot, make sure that secure boot is disabled in the BIOS configuration.
 
 ## Format disk and mount partitions
-
+~~
+$ lsblk // list devices
+$ gdisk [/dev/sda] > x > z > y > y
+$ cgdisk [/dev/sda]
+~~
 Use GParted
 * Partition table is GPT
 * the EFI partition is FAT32, around 250MB
