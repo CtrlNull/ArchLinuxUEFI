@@ -1,6 +1,6 @@
  <img src="https://news-cdn.softpedia.com/images/news2/How-to-Install-Third-Party-Apps-in-Arch-Linux-2.png" width="125" height="100"> 
 
- # Arch Linux Legacy Install
+ # Arch Linux UEFI Install
 
 Note** this is for non-dual boot, GNOME Setup
 
@@ -24,6 +24,9 @@ $ efivar -l
 ~~~
 
 ## Format disk and mount partitions
+
+* note: if you have nvme drive path dev/nvme0n1[]
+
 ~~~
 $ lsblk // list devices
 
@@ -154,6 +157,8 @@ $ sudo systemctl enable NetworkManager.service
 
 ~~~
 $ exit
+
+$ reboot
 ~~~
 
 ## Graphics and audio(Laptop)
