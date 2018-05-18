@@ -13,18 +13,42 @@ $ dd if=archlinux.img of=/dev/[sdX] bs=16M && sync # on linux
 
 ### Boot from the usb. If the usb fails to boot, make sure that secure boot is disabled in the BIOS configuration.
 
-### Format disk and mount partitions
+## Format disk and mount partitions
 
 Use GParted
 * Partition table is GPT
 * the EFI partition is FAT32, around 250MB
-* the root partition is ext4, around 35GB
-* the home partition is ext4, rest of the disk
+* the swap partition is swap, [*GB]
+* the root partition is ext4, to last
 
+* Write > yes
+
+### Apply file system
 ~~~
-$ mount /dev/sda5 /mnt
-$ mkdir /mnt/esp
-$ mount /dev/sda3 /mnt/esp
+$ mkfs.fat -F32 /dev/sda1
+~~~
+
+### Prepare swap 
+~~~
+$ mkswap /dev/sda2
+$ swapon /dev/sda2
+~~~
+
+### Make root partion sda4
+~~~
+$ mkfs.ext4/dev/sda3
+~~~
+
+## Mount drives
+~~~
+$ mount /dev/sda3 /mnt
+$ mkdir /mnt/boot
+$ mount /dev/sda1 /mnt/boot
+~~~
+
+## Backup Mirror List
+~~~
+$ cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
 ~~~
 
 ## Install Arch
@@ -51,4 +75,48 @@ $ passwd [archie]
 $ perl -i -pe 's/#(%wheel ALL=(ALL) ALL)/$1/' /etc/sudoers
 $ exit
 
+## Boot Loader and Packages 
+
+~~~
+// Boot Loader
+
+$ pacman -S grub // Setup GRUB bootloader
+
+$ grub-install /dev/sda
+
+$ grub-mkconfig -o /boot/grub/grub.cfg // configures grub loader
+
+$ exit
+
+$ unmount
+
+$ reboot
+
+// Packages 
+
+$ sudo pacman -S pulseaudio pulseaudio-alsa // install audio
+
+// install graphics > select option (1) intergrated
+$ sudo pacman -S xorg xorg-xinit 
+~~~
+
+
+
+
+## Install GNOME & Login manager
+
+~~~
+$ echo "exec gnome-session" > ~/.xinitrc // create a file of init for guid
+
+$ sudo pacman -S gnome // install gnome desktop
+
+// install random needed programs
+
+$ startx // starts GUI 
+
+$ sudo pacman -S sddm // install login manager
+
+$ sudo systemctl enable sddm.service // run login manager service
+
+$ reboot
 ~~~
