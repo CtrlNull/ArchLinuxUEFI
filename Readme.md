@@ -180,12 +180,15 @@ $ echo "exec gnome-session" > ~/.xinitrc // create a file of init for guid
 
 $ sudo pacman -S gnome // install gnome desktop enter > enter >
 
+$ sudo pacman -S gnome-tweak-tools
+
 $ sudo systemctl enable gdm
 
-// install random needed programs
+$ restart
+~~~
 
-$ startx // starts GUI 
-
+### install random needed programs
+~~~
 $ sudo pacman -S sddm // install login manager
 
 $ sudo systemctl enable sddm.service // run login manager service
