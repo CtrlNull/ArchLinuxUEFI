@@ -9,7 +9,8 @@
 or
 #### LINUX Download ISO and copy to usb via bash
 ~~~
-$ dd if=archlinux.img of=/dev/[sdX] bs=16M && sync # on linux
+$ sudo umount /dev/sdX
+$ sudo dd if=/path/to/archlinux.iso of=/dev/[sd[x]] bs=4M && sync
 ~~~
 
 #### Boot from the usb. If the usb fails to boot, make sure that secure boot is disabled in the BIOS configuration.
